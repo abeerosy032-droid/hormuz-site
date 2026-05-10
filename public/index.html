@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بين الصفر وهرمز | Zero · OpenClaw · Hormuz</title>
+    <title>ZeroClaw · OpenClaw · Hermes Agent | مقارنة وكلاء AI</title>
     <style>
         * { margin:0; padding:0; box-sizing:border-box; }
         body { font-family:'Segoe UI',Tahoma,sans-serif; background:#0a0a1a; color:#e0e0e0; min-height:100vh; }
         nav { position:sticky; top:0; z-index:100; background:rgba(10,10,26,0.95); backdrop-filter:blur(10px); border-bottom:1px solid rgba(0,212,255,0.2); padding:15px 30px; display:flex; justify-content:space-between; align-items:center; }
-        nav .logo { font-size:1.4em; font-weight:bold; background:linear-gradient(90deg,#00d4ff,#7b2cbf); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+        nav .logo { font-size:1.4em; font-weight:bold; background:linear-gradient(90deg,#00d4ff,#7b2cbf,#ff6b6b); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
         nav .nav-links { display:flex; gap:20px; }
         nav .nav-links a { color:#aaa; text-decoration:none; transition:color 0.3s; }
         nav .nav-links a:hover,.nav .nav-links a.active { color:#00d4ff; }
@@ -16,13 +16,26 @@
         .hero h1 { font-size:3em; background:linear-gradient(90deg,#00d4ff,#7b2cbf,#ff6b6b); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
         .hero p { color:#888; margin-top:10px; font-size:1.1em; }
         .container { max-width:1200px; margin:0 auto; padding:0 20px 40px; }
-        .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:25px; margin-top:30px; }
+        .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(350px,1fr)); gap:25px; margin-top:30px; }
         .card { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:16px; padding:30px; transition:transform 0.3s,box-shadow 0.3s; }
         .card:hover { transform:translateY(-4px); box-shadow:0 15px 40px rgba(0,0,0,0.3); }
         .card h2 { font-size:1.5em; margin-bottom:15px; display:flex; align-items:center; gap:10px; }
         .card p { color:#b0b0b0; line-height:1.7; margin-bottom:10px; }
         .tag { display:inline-block; padding:4px 12px; border-radius:20px; font-size:0.8em; background:rgba(0,212,255,0.1); color:#00d4ff; border:1px solid rgba(0,212,255,0.2); margin:3px; }
+        .tag.purple { background:rgba(123,44,191,0.1); color:#7b2cbf; border-color:rgba(123,44,191,0.2); }
+        .tag.red { background:rgba(255,107,107,0.1); color:#ff6b6b; border-color:rgba(255,107,107,0.2); }
         .section-title { text-align:center; margin:50px 0 20px; font-size:2em; color:#00d4ff; }
+        .stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:15px; margin-top:15px; }
+        .stat { text-align:center; padding:15px; background:rgba(0,0,0,0.2); border-radius:10px; }
+        .stat h3 { font-size:1.8em; color:#00d4ff; margin-bottom:5px; }
+        .stat p { color:#888; font-size:0.85em; }
+        .comparison-table { width:100%; border-collapse:collapse; margin-top:20px; background:rgba(255,255,255,0.02); border-radius:12px; overflow:hidden; }
+        .comparison-table th,.comparison-table td { padding:15px; text-align:center; border-bottom:1px solid rgba(255,255,255,0.05); }
+        .comparison-table th { background:rgba(0,212,255,0.1); color:#00d4ff; font-weight:bold; }
+        .comparison-table tr:hover { background:rgba(255,255,255,0.02); }
+        .comparison-table .check { color:#00ff88; }
+        .comparison-table .cross { color:#ff6b6b; }
+        .comparison-table .partial { color:#ffd700; }
         .chat-container { background:rgba(255,255,255,0.03); border:1px solid rgba(0,212,255,0.15); border-radius:20px; overflow:hidden; max-width:800px; margin:0 auto; }
         .chat-header { background:linear-gradient(135deg,rgba(0,212,255,0.15),rgba(123,44,191,0.15)); padding:15px 20px; display:flex; align-items:center; gap:10px; border-bottom:1px solid rgba(0,212,255,0.1); }
         .chat-header .dot { width:8px; height:8px; border-radius:50%; background:#00ff88; }
@@ -48,60 +61,183 @@
         .suggestions button { padding:6px 14px; border-radius:20px; border:1px solid rgba(0,212,255,0.2); background:rgba(0,212,255,0.05); color:#00d4ff; font-size:0.85em; cursor:pointer; transition:all 0.2s; font-family:inherit; }
         .suggestions button:hover { background:rgba(0,212,255,0.15); }
         footer { text-align:center; padding:30px; color:#555; font-size:0.9em; border-top:1px solid rgba(255,255,255,0.05); }
-        @media(max-width:768px) { .hero h1{font-size:2em} .grid{grid-template-columns:1fr} .chat-messages{height:350px} .msg{max-width:90%} }
+        @media(max-width:768px) { .hero h1{font-size:2em} .grid{grid-template-columns:1fr} .chat-messages{height:350px} .msg{max-width:90%} .comparison-table{font-size:0.85em} }
     </style>
 </head>
 <body>
     <nav>
-        <div class="logo">🌊 بين الصفر وهرمز</div>
+        <div class="logo">🦞 ZeroClaw · OpenClaw · Hermes</div>
         <div class="nav-links">
-            <a href="#info">المعلومات</a>
+            <a href="#info" class="active">المقارنة</a>
             <a href="#chat-section">المحادثة</a>
         </div>
     </nav>
 
     <div class="hero">
-        <h1>من الصفر إلى هرمز</h1>
-        <p>نقطة البداية · بوابة الذكاء · الممر الاستراتيجي</p>
+        <h1>مقارنة وكلاء AI المستقلة</h1>
+        <p>ZeroClaw · OpenClaw · Hermes Agent — أي واحد يناسبك؟</p>
     </div>
 
     <div class="container" id="info">
         <div class="grid">
+            <!-- ZeroClaw Card -->
             <div class="card">
-                <h2>0️⃣ الصفر</h2>
-                <p>الصفر (0) ليس مجرد رقم — إنه <strong style="color:#7b2cbf">ثورة فكرية</strong> غيّرت مسار البشرية. من الهند القديمة إلى الرياضيات الحديثة، الصفر يمثل الفراغ الذي يحتوي على كل الإمكانيات.</p>
-                <p>كلمة "zero" جاءت من العربية <strong>"صفر"</strong> التي تعني "فارغ"، وطورها علماء المسلمين من السنسكريتية "شونيا". فيبوناتشي جلبها لأوروبا عام 1202.</p>
-                <p>بدون الصفر، لا حوسبة، لا إنترنت، لا ذكاء اصطناعي.</p>
-                <div style="margin-top:12px"><span class="tag">الهند القديمة</span><span class="tag">الخوارزمي</span><span class="tag">فيبوناتشي</span><span class="tag">النظام العشري</span></div>
+                <h2>🦀 ZeroClaw</h2>
+                <p>Runtime مكتوب بـ <strong style="color:#ff6b6b">Rust</strong> — سريع، آمن، ومصمم للإنتاج. ثنائي واحد تشغله على أي منصة.</p>
+                <p><strong>الفلسفة:</strong> أنت تملك كل شيء — البايناري، المفاتيح، البيانات. لا تيليمتري، لا سحابة، لا ترخيص.</p>
+                <p><strong>الأمان:</strong> supervised افتراضياً — العمليات المتوسطة تحتاج موافقة، العالية محظورة. دعم sandboxing على مستوى OS.</p>
+                <div style="margin-top:12px">
+                    <span class="tag red">Rust</span>
+                    <span class="tag red">Security-first</span>
+                    <span class="tag red">Minimal</span>
+                    <span class="tag red">30+ Channels</span>
+                </div>
+                <div class="stats">
+                    <div class="stat"><h3>~10MB</h3><p>Core Binary</p></div>
+                    <div class="stat"><h3>20+</h3><p>Providers</p></div>
+                    <div class="stat"><h3>MIT/Apache</h3><p>License</p></div>
+                </div>
             </div>
+
+            <!-- OpenClaw Card -->
             <div class="card">
                 <h2>🦞 OpenClaw</h2>
-                <p>OpenClaw هو <strong style="color:#00d4ff">بوابة مستضافة ذاتياً</strong> تربط تطبيقات الدردشة — Discord, Signal, Telegram, WhatsApp والمزيد — بوكيل ذكاء اصطناعي متاح دائماً.</p>
-                <p>مشروع مفتوح المصدر (MIT)، يعمل على جهازك أو سيرفرك. بوابة واحدة تخدم جميع القنوات مع دعم كامل للصور والصوت والوثائق.</p>
-                <p>ثبّت بـ 5 دقائق: Node 24 + مفتاح API = مساعد AI شخصي.</p>
-                <div style="margin-top:12px"><span class="tag">مفتوح المصدر</span><span class="tag">Multi-channel</span><span class="tag">Self-hosted</span><span class="tag">AI Agent</span></div>
+                <p>بوابة <strong style="color:#00d4ff">Gateway-first</strong> — وكيل يغلف بنية مراسلة تربط 24+ منصة عبر عملية واحدة دائماً.</p>
+                <p><strong>الفلسفة:</strong> البوابة هي مصدر الحقيقة للجلسات، التوجيه، واتصالات القنوات. أكبر نظام مهارات مجتمعي.</p>
+                <p><strong>القوة:</strong> تكاملات لا مثيل لها، نظام مهارات ضخم (13,700+ مهارة)، دعم multi-agent.</p>
+                <div style="margin-top:12px">
+                    <span class="tag">Node.js</span>
+                    <span class="tag">Gateway-first</span>
+                    <span class="tag">Multi-channel</span>
+                    <span class="tag">13,700+ Skills</span>
+                </div>
+                <div class="stats">
+                    <div class="stat"><h3>137</h3><p>Releases</p></div>
+                    <div class="stat"><h3>24+</h3><p>Platforms</p></div>
+                    <div class="stat"><h3>MIT</h3><p>License</p></div>
+                </div>
             </div>
+
+            <!-- Hermes Agent Card -->
             <div class="card">
-                <h2>🌊 مضيق هرمز</h2>
-                <p>مضيق هرمز <strong style="color:#ff6b6b">نقطة اختناق عالمية</strong> — الممر المائي الوحيد من الخليج العربي إلى المحيط المفتوح. يربط إيران شمالاً وعُمان جنوباً.</p>
-                <p>طوله 167 كم، أضيق نقطة 39 كم فقط. يمر عبره 25% من تجارة النفط البحري و20% من الغاز الطبيعي المسال عالمياً.</p>
-                <p>اسمه من الإله الزرادشتي "أهورا مازدا". مملكة هرمز ازدهرت هنا في القرن 10-17.</p>
-                <div style="margin-top:12px"><span class="tag">25% نفط عالمي</span><span class="tag">167 كم</span><span class="tag">إيران · عُمان</span><span class="tag">Choke Point</span></div>
+                <h2>☤ Hermes Agent</h2>
+                <p>وكيل <strong style="color:#7b2cbf">Self-improving</strong> من Nous Research — الوكيل الوحيد مع حلقة تعلم مدمجة.</p>
+                <p><strong>الفلسفة:</strong> Agent-first — يخلق مهارات من الخبرة، يحسنها أثناء الاستخدام، يبحث محادثاته السابقة.</p>
+                <p><strong>القوة:</strong> حلقة تعلم مغلقة، مهارات ذاتية التحسين، 141,922 ⭐، دعم كامل للهجرة من OpenClaw.</p>
+                <div style="margin-top:12px">
+                    <span class="tag purple">Python</span>
+                    <span class="tag purple">Self-learning</span>
+                    <span class="tag purple">141,922 ⭐</span>
+                    <span class="tag purple">Skills Hub</span>
+                </div>
+                <div class="stats">
+                    <div class="stat"><h3>141,922</h3><p>GitHub Stars</p></div>
+                    <div class="stat"><h3>22,088</h3><p>Forks</p></div>
+                    <div class="stat"><h3>MIT</h3><p>License</p></div>
+                </div>
             </div>
         </div>
 
-        <div class="card" style="margin-top:30px; text-align:center; padding:40px;">
-            <h2 style="justify-content:center">🔗 الرابط المشترك</h2>
-            <p style="max-width:700px; margin:0 auto; font-size:1.1em;">
-                <strong>الصفر</strong> = نقطة البداية والفراغ الإبداعي<br>
-                <strong>OpenClaw</strong> = البوابة التي تحول الصفر إلى اتصال ذكي<br>
-                <strong>هرمز</strong> = الممر الاستراتيجي الذي يربط العالم<br><br>
-                الثلاثة = <span style="color:#7b2cbf; font-weight:bold">نقاط تحول</span> في الرياضيات، التكنولوجيا، والجغرافيا السياسية
-            </p>
+        <!-- Comparison Table -->
+        <h2 class="section-title">📊 جدول المقارنة</h2>
+        <div style="overflow-x:auto">
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>الميزة</th>
+                        <th>🦀 ZeroClaw</th>
+                        <th>🦞 OpenClaw</th>
+                        <th>☤ Hermes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>اللغة</td>
+                        <td>Rust</td>
+                        <td>Node.js</td>
+                        <td>Python</td>
+                    </tr>
+                    <tr>
+                        <td>الفلسفة</td>
+                        <td>Security-first, Minimal</td>
+                        <td>Gateway-first</td>
+                        <td>Agent-first, Self-learning</td>
+                    </tr>
+                    <tr>
+                        <td>حجم البايناري</td>
+                        <td>~10MB (minimal)</td>
+                        <td>~50MB</td>
+                        <td>~200MB (with deps)</td>
+                    </tr>
+                    <tr>
+                        <td>القنوات المدعومة</td>
+                        <td>30+</td>
+                        <td>24+</td>
+                        <td>6+ (Telegram, Discord, Slack, WhatsApp, Signal, Email)</td>
+                    </tr>
+                    <tr>
+                        <td>مزودي النماذج</td>
+                        <td>20+</td>
+                        <td>15+</td>
+                        <td>200+ (via OpenRouter)</td>
+                    </tr>
+                    <tr>
+                        <td>نظام المهارات</td>
+                        <td class="partial">MCP + Custom</td>
+                        <td class="check">13,700+ Community Skills</td>
+                        <td class="check">Self-learning + Skills Hub</td>
+                    </tr>
+                    <tr>
+                        <td>التعلم الذاتي</td>
+                        <td class="cross">❌</td>
+                        <td class="cross">❌</td>
+                        <td class="check">✅</td>
+                    </tr>
+                    <tr>
+                        <td>الأمان الافتراضي</td>
+                        <td class="check">Supervised + Sandboxing</td>
+                        <td class="partial">Approval Gates</td>
+                        <td class="partial">Command Approval</td>
+                    </tr>
+                    <tr>
+                        <td>سهولة الإعداد</td>
+                        <td class="partial">⚠️ متوسط</td>
+                        <td class="cross">⚠️ معقد</td>
+                        <td class="check">✅ سهل</td>
+                    </tr>
+                    <tr>
+                        <td>الاستقرار</td>
+                        <td class="check">✅ Rust Safety</td>
+                        <td class="partial">⚠️ Updates Break Things</td>
+                        <td class="partial">⚠️ Fewer Releases</td>
+                    </tr>
+                    <tr>
+                        <td>الشعبية</td>
+                        <td>جديد</td>
+                        <td>103k Members</td>
+                        <td>141,922 ⭐</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
 
+        <!-- Community Insights -->
+        <h2 class="section-title">💬 آراء المجتمع (Reddit r/openclaw)</h2>
+        <div class="card" style="margin-top:20px">
+            <p><strong>التقسيم الحالي:</strong></p>
+            <ul style="margin:15px 0 15px 30px; color:#b0b0b0; line-height:1.8;">
+                <li>~35% يلتزمون بـ OpenClaw رغم العيوب — تكاملات لا مثيل لها وأكبر نظام مهارات</li>
+                <li>~30% انتقلوا إلى Hermes — إعداد أسهل، ذاكرة أفضل افتراضياً</li>
+                <li>~20% يستخدمون الاثنين معاً — OpenClaw كمنسق، Hermes كخبير تنفيذ</li>
+                <li>~15% لا يثقون بـ Hermes بسبب شكوك astroturfing</li>
+            </ul>
+            <p><strong>الاستخدام المشترك:</strong></p>
+            <p style="color:#b0b0b0; margin-top:10px;">"OpenClaw كمنسق (تخطيط، تفكيك، ترتيب) و Hermes كخبير تنفيذ (حلقات سريعة ومتكررة). الأدوات تتواصل عبر بروتوكول ACP."</p>
+        </div>
+
+        <!-- Chat Section -->
         <h2 class="section-title" id="chat-section">💬 اسأل الذكاء الاصطناعي</h2>
-        <p style="text-align:center; color:#888; margin-bottom:20px;">اسأل أي سؤال عن الصفر، OpenClaw، أو مضيق هرمز — أو اطلب مقارنة بينهم</p>
+        <p style="text-align:center; color:#888; margin-bottom:20px;">اسأل أي سؤال عن ZeroClaw، OpenClaw، أو Hermes Agent — أو اطلب مقارنة بينهم</p>
 
         <div class="chat-container">
             <div class="chat-header">
@@ -111,14 +247,14 @@
             <div class="chat-messages" id="chatMessages">
                 <div class="msg ai">
                     <span class="label">🤖 Gemini</span>
-                    أهلاً! أنا مساعدك الذكي. اسألني عن <strong>الصفر</strong>، <strong>OpenClaw</strong>، أو <strong>مضيق هرمز</strong> — أو اطلب مقارنة بينهم! 🚀
+                    أهلاً! أنا مساعدك الذكي. اسألني عن <strong>ZeroClaw</strong>، <strong>OpenClaw</strong>، أو <strong>Hermes Agent</strong> — أو اطلب مقارنة بينهم! 🚀
                 </div>
             </div>
             <div class="suggestions">
-                <button onclick="askSuggestion(this)">قارن بين الصفر وهرمز</button>
+                <button onclick="askSuggestion(this)">قارن بين ZeroClaw و Hermes</button>
                 <button onclick="askSuggestion(this)">ما هو OpenClaw؟</button>
-                <button onclick="askSuggestion(this)">كيف أثر الصفر على التكنولوجيا؟</button>
-                <button onclick="askSuggestion(this)">لماذا هرمز مهم عالمياً؟</button>
+                <button onclick="askSuggestion(this)">لماذا ZeroClaw آمن؟</button>
+                <button onclick="askSuggestion(this)">أي واحد أنصح به؟</button>
             </div>
             <div class="chat-input">
                 <input type="text" id="chatInput" placeholder="اكتب سؤالك هنا..." onkeydown="if(event.key==='Enter')sendMessage()">
@@ -128,8 +264,9 @@
     </div>
 
     <footer>
-        <p>🌟 من الصفر إلى الاستراتيجية — رحلة مستمرة 🌟</p>
+        <p>🌟 مقارنة وكلاء AI المستقلة — ZeroClaw · OpenClaw · Hermes 🌟</p>
         <p style="margin-top:8px">أنشأه Abeer Wasel | Powered by Gemini Flash + Cloudflare Pages</p>
+        <p style="margin-top:8px; font-size:0.85em; color:#666">المصادر: GitHub, Reddit r/openclaw, Kilo Blog</p>
     </footer>
 
     <script>
@@ -141,17 +278,40 @@
         const chatInput = document.getElementById('chatInput');
         const sendBtn = document.getElementById('sendBtn');
 
-        const systemContext = `أنت مساعد ذكي متخصص في ثلاثة مواضيع:
-1. الصفر (Zero) - تاريخه وأهميته في الرياضيات والحضارة الإسلامية والعالمية
-2. OpenClaw - بوابة AI مفتوحة المصدر تربط تطبيقات الدردشة بوكيل ذكاء اصطناعي، مشروع MIT، يدعم Discord/Signal/Telegram/WhatsApp
-3. مضيق هرمز - الممر المائي الاستراتيجي بين الخليج العربي وخليج عمان، 167كم، 25% نفط بحري عالمي
+        const systemContext = `أنت مساعد ذكي متخصص في مقارنة ثلاثة وكلاء AI مستقلة:
 
-معلومات أساسية:
-- الصفر: جاء من العربية "صفر"، طور في الهند والعالم الإسلامي، فيبوناتشي جلبه لأوروبا 1202
-- OpenClaw: بوابة مستضافة ذاتياً، مفتوح المصدر MIT، Node 24، 5 دقائق للإعداد
-- مضيق هرمز: أضيق نقطة 39كم، يربط إيران وعُمان، 20% غاز مسال عالمي، اسمه من أهورا مازدا
+1. **ZeroClaw** (🦀) - Runtime مكتوب بـ Rust:
+   - الفلسفة: Security-first, Minimal, You own it
+   - الميزات: ~10MB binary, 30+ channels, 20+ providers, OS-level sandboxing
+   - الأمان: supervised افتراضياً، tool receipts، emergency stop
+   - الترخيص: MIT OR Apache 2.0
+   - GitHub: github.com/zeroclaw-labs/zeroclaw
 
-أجب بالعربية، كن ودوداً ومفيداً، استخدم الأمثلة والتشبيهات.`;
+2. **OpenClaw** (🦞) - Gateway-first:
+   - الفلسفة: Gateway is single source of truth
+   - الميزات: 24+ platforms, 13,700+ community skills, multi-agent orchestration
+   - المشاكل: Updates break things, memory unreliable, self-hosting barrier
+   - الترخيص: MIT
+   - المجتمع: 103,000 members on r/openclaw
+
+3. **Hermes Agent** (☤) - Self-improving من Nous Research:
+   - الفلسفة: Agent-first, self-learning loop
+   - الميزات: 141,922 GitHub stars, self-improving skills, 200+ models via OpenRouter
+   - القوة: Creates skills from experience, improves during use, cross-session recall
+   - المشاكل: Self-evaluation always passes, self-learning overwrites work, fewer releases
+   - الترخيص: MIT
+   - GitHub: github.com/NousResearch/hermes-agent
+
+**آراء المجتمع (Reddit r/openclaw):**
+- ~35% يلتزمون بـ OpenClaw (تكاملات + مهارات)
+- ~30% انتقلوا إلى Hermes (إعداد أسهل + ذاكرة أفضل)
+- ~20% يستخدمون الاثنين (OpenClaw = orchestrator, Hermes = execution specialist)
+- ~15% لا يثقون بـ Hermes (astroturfing concerns)
+
+**الاستخدام المشترك:**
+OpenClaw كمنسق (planning, decomposition, sequencing) + Hermes كخبير تنفيذ (fast, repeatable loops). يتواصلان عبر ACP protocol.
+
+أجب بالعربية، كن ودوداً ومفيداً، استخدم الأمثلة والتشبيهات. عند المقارنة، اجعلها منظمة وواضحة.`;
 
         const history = [];
 
@@ -202,7 +362,7 @@
             try {
                 const contents = [
                     { role: 'user', parts: [{ text: systemContext }] },
-                    { role: 'model', parts: [{ text: 'فهمت! أنا جاهز للإجابة عن أسئلتك حول هذه المواضيع.' }] },
+                    { role: 'model', parts: [{ text: 'فهمت! أنا جاهز للإجابة عن أسئلتك حول هذه الوكلاء الثلاثة.' }] },
                     ...history
                 ];
 
