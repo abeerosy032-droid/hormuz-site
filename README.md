@@ -1,87 +1,48 @@
-# موقع بين الصفر وهرمز | Zero to Hormuz
+# منصة المقارنة المباشرة | ZeroClaw vs OpenClaw vs Hermes
 
-موقع تعليمي يربط بين ثلاثة مواضيع: الصفر، OpenClaw، ومضيق هرمز.
+منصة وموقع مخصص للمقارنة المباشرة بين أنظمة الذكاء الاصطناعي والأدوات التحليلية (ZeroClaw و OpenClaw و Hermes)، بالإضافة إلى ارتباطها بمختبر تقييم نماذج الذكاء الاصطناعي (Gemini و GLM-5 وغيرها).
 
-## المحتوى
+## 🚀 حول المشروع
 
-- **الصفر (Zero)**: تاريخ وأهمية الصفر في الرياضيات
-- **OpenClaw**: بوابة الذكاء الاصطناعي المستضافة ذاتياً
-- **مضيق هرمز (Strait of Hormuz)**: الممر المائي الاستراتيجي
+هذا المستودع يحتوي على الأكواد المصدرية لموقع المقارنة النهائي، والذي يتيح واجهة مستخدم تفاعلية (HTML/CSS/JS) ومزود بـ **Cloudflare Worker** كوسيط آمن للتخاطب مع الـ APIs الخاصة بنماذج الذكاء الاصطناعي لضمان إخفاء المفاتيح السرية عن الواجهة الأمامية.
 
-## النشر على Cloudflare Pages
+## 🔗 الروابط المباشرة
 
-### الطريقة 1: عبر Git
+- **الموقع المباشر (المقارنات):** [https://hormuz-site.pages.dev](https://hormuz-site.pages.dev)
+- **مختبر التقييم المباشر لنماذج AI:** [http://34.136.31.84:8080/](http://34.136.31.84:8080/)
 
-1. أنشئ مستودع Git جديد:
+## 📂 بنية المشروع
+
+- `public/index.html` - الصفحة الرئيسية للمقارنة ومحادثة الـ AI.
+- `worker.js` - كود Cloudflare Worker ليعمل كمخدم وكيل (Proxy) آمن يخفي الـ API Keys.
+- `wrangler-worker.toml` - إعدادات تكوين ونشر الـ Worker عبر Wrangler.
+- `README.md` - هذا الملف.
+
+## 🛠 التقنيات المستخدمة
+
+- **Frontend:** HTML5, TailwindCSS (عبر الـ CDN), Vanilla JavaScript, Marked.js (لتحويل Markdown إلى HTML منسق).
+- **Backend/Proxy:** Cloudflare Workers.
+- **التكامل:** Gemini API, OpenClaw APIs.
+
+## ☁️ آلية النشر والتحديث (Cloudflare)
+
+### 1. نشر الموقع الثابت (Cloudflare Pages)
 ```bash
-cd /home/abeerosy032/.openclaw/workspace/hormuz-site
-git init
-git add .
-git commit -m "Initial commit"
+wrangler pages deploy public/ --project-name=hormuz-site
 ```
 
-2. اربط المستودع بـ GitHub/GitLab
-
-3. في Cloudflare Dashboard:
-   - اذهب إلى Pages
-   - أنشئ مشروع جديد
-   - اختر "Connect to Git"
-   - اختر المستودع
-   - اضغط "Save and Deploy"
-
-### الطريقة 2: عبر Wrangler CLI
-
-1. ثبت Wrangler:
+### 2. نشر مخدم الوكيل (Cloudflare Worker)
 ```bash
-npm install -g wrangler
+# نشر الـ Worker 
+wrangler deploy -c wrangler-worker.toml
+
+# إعداد مفتاح API بشكل آمن كمتغير بيئة (Secret)
+wrangler secret put GEMINI_API_KEY -c wrangler-worker.toml
 ```
 
-2. سجّل الدخول:
-```bash
-wrangler login
-```
+## 🔒 آلية الحماية والأمان
 
-3. أنشئ المشروع:
-```bash
-cd /home/abeerosy032/.openclaw/workspace/hormuz-site
-wrangler pages project create hormuz-site
-```
+لضمان عدم تسريب مفاتيح الـ API في الكود المصدري للمتصفح، يتم إرسال أسئلة المستخدم من الـ Frontend إلى الـ Worker الخاص بنا، حيث يقوم الـ Worker بإرفاق المفتاح السري وإرسال الطلب بشكل آمن إلى سيرفرات مزود الـ AI، ثم يقوم بإرجاع النتيجة (مُنسقة كـ Markdown) ليتم تقديمها إلى المستخدم بسلاسة عبر `marked.js`.
 
-4. انشر الموقع:
-```bash
-wrangler pages deploy . --project-name=hormuz-site
-```
-
-### الطريقة 3: Direct Upload
-
-1. في Cloudflare Dashboard:
-   - اذهب إلى Pages
-   - اضغط "Create a project"
-   - اختر "Upload assets"
-   - ارفع مجلد `hormuz-site`
-   - اضغط "Deploy site"
-
-## الملفات
-
-- `index.html` - الصفحة الرئيسية
-- `README.md` - هذا الملف
-
-## التقنيات المستخدمة
-
-- HTML5
-- CSS3 (مع Flexbox و Grid)
-- تصميم متجاوب (Responsive)
-- دعم RTL للعربية
-
-## المميزات
-
-- تصميم عصري مع تدرجات لونية
-- تأثيرات hover تفاعلية
-- بطاقات إحصائيات
-- خط زمني
-- دعم كامل للعربية والإنجليزية
-- متجاوب مع جميع الأجهزة
-
-## الترخيص
-
-MIT License
+---
+*تم تطوير وصيانة هذا المشروع ضمن مختبرات تقييم الذكاء الاصطناعي (OpenClaw Environment).*
