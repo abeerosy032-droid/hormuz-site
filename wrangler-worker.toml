@@ -1,0 +1,6 @@
+name = "hormuz-chat-worker"
+main = "worker.js"
+compatibility_date = "2024-12-01"
+
+[vars]
+MODEL = "gemini-3.1-flash-lite"

@@ -61,6 +61,27 @@
         .suggestions button { padding:6px 14px; border-radius:20px; border:1px solid rgba(0,212,255,0.2); background:rgba(0,212,255,0.05); color:#00d4ff; font-size:0.85em; cursor:pointer; transition:all 0.2s; font-family:inherit; }
         .suggestions button:hover { background:rgba(0,212,255,0.15); }
         footer { text-align:center; padding:30px; color:#555; font-size:0.9em; border-top:1px solid rgba(255,255,255,0.05); }
+        /* Markdown inside chat */
+        .msg-content h1,.msg-content h2,.msg-content h3,.msg-content h4 { color:#00d4ff; margin:12px 0 6px; }
+        .msg-content h1 { font-size:1.4em; }
+        .msg-content h2 { font-size:1.2em; }
+        .msg-content h3 { font-size:1.1em; }
+        .msg-content h4 { font-size:1em; }
+        .msg-content p { margin:6px 0; }
+        .msg-content strong { color:#7b2cbf; }
+        .msg-content em { color:#00d4ff; font-style:italic; }
+        .msg-content ul,.msg-content ol { margin:8px 0; padding-right:25px; }
+        .msg-content li { margin:4px 0; }
+        .msg-content code { background:rgba(0,0,0,0.3); padding:2px 6px; border-radius:4px; font-family:monospace; color:#ff6b6b; font-size:0.9em; }
+        .msg-content pre { background:rgba(0,0,0,0.4); padding:12px; border-radius:8px; overflow-x:auto; margin:8px 0; }
+        .msg-content pre code { background:none; padding:0; color:#e0e0e0; }
+        .msg-content table { width:100%; border-collapse:collapse; margin:10px 0; font-size:0.9em; }
+        .msg-content th { background:rgba(0,212,255,0.15); color:#00d4ff; padding:8px 12px; text-align:center; border:1px solid rgba(0,212,255,0.2); }
+        .msg-content td { padding:8px 12px; border:1px solid rgba(255,255,255,0.1); text-align:center; }
+        .msg-content tr:hover td { background:rgba(255,255,255,0.03); }
+        .msg-content blockquote { border-right:3px solid #7b2cbf; padding-right:12px; margin:8px 0; color:#a0a0a0; font-style:italic; }
+        .msg-content hr { border:none; border-top:1px solid rgba(255,255,255,0.1); margin:12px 0; }
+        .msg-content a { color:#00d4ff; text-decoration:underline; }
         @media(max-width:768px) { .hero h1{font-size:2em} .grid{grid-template-columns:1fr} .chat-messages{height:350px} .msg{max-width:90%} .comparison-table{font-size:0.85em} }
     </style>
 </head>
@@ -70,6 +91,7 @@
         <div class="nav-links">
             <a href="#info" class="active">المقارنة</a>
             <a href="#chat-section">المحادثة</a>
+            <a href="http://34.136.31.84:8080/" target="_blank" style="background:linear-gradient(135deg,rgba(0,212,255,0.15),rgba(123,44,191,0.15));padding:6px 16px;border-radius:20px;border:1px solid rgba(0,212,255,0.3);">🧪 مختبر التقييم</a>
         </div>
     </nav>
 
@@ -269,10 +291,9 @@
         <p style="margin-top:8px; font-size:0.85em; color:#666">المصادر: GitHub, Reddit r/openclaw, Kilo Blog</p>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script>
-        const API_KEY = 'AIzaSyBgCXDdnbdNGt0aeC_AxH7DlgaPx7cfg50';
-        const MODEL = 'gemini-2.0-flash-preview-05-20';
-        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${API_KEY}`;
+        const WORKER_URL = 'https://hormuz-chat-worker.abeerosy032.workers.dev';
 
         const chatMessages = document.getElementById('chatMessages');
         const chatInput = document.getElementById('chatInput');
@@ -323,7 +344,12 @@ OpenClaw كمنسق (planning, decomposition, sequencing) + Hermes كخبير ت
             label.textContent = type === 'ai' ? '🤖 Gemini' : '👤 أنت';
             div.appendChild(label);
             const content = document.createElement('div');
-            content.innerHTML = text.replace(/\n/g, '<br>');
+            content.className = 'msg-content';
+            if (type === 'ai' && typeof marked !== 'undefined') {
+                content.innerHTML = marked.parse(text);
+            } else {
+                content.innerHTML = text.replace(/\n/g, '<br>');
+            }
             div.appendChild(content);
             chatMessages.appendChild(div);
             chatMessages.scrollTop = chatMessages.scrollHeight;
@@ -366,7 +392,7 @@ OpenClaw كمنسق (planning, decomposition, sequencing) + Hermes كخبير ت
                     ...history
                 ];
 
-                const response = await fetch(API_URL, {
+                const response = await fetch(WORKER_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ contents })
